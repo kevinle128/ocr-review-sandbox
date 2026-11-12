@@ -7,6 +7,9 @@ import (
 
 // Transfer moves amount from one account to another.
 func (s *Store) Transfer(from, to string, amount int) error {
+	if amount <= 0 {
+		return fmt.Errorf("amount must be positive")
+	}
 	if s.balances[from] < amount {
 		return fmt.Errorf("insufficient funds")
 	}
