@@ -39,3 +39,8 @@ func (s *Store) Average() int {
 	}
 	return total / len(s.balances)
 }
+
+// Withdraw removes amount from an account.
+func (s *Store) Withdraw(id string, amount int) {
+	s.balances[id] -= amount
+}
