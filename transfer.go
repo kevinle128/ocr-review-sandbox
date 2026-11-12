@@ -41,6 +41,14 @@ func (s *Store) Average() int {
 }
 
 // Withdraw removes amount from an account.
-func (s *Store) Withdraw(id string, amount int) {
-	s.balances[id] -= amount
+func (s *Store) Withdraw(id string, amount int) error {
+	b, ok := s.balances[id]
+	if !ok {
+		return fmt.Errorf("unknown account")
+	}
+	if amount <= 0 || amount > b {
+		return fmt.Errorf("invalid amount")
+	}
+	s.balances[id] = b - amount
+	return nil
 }
