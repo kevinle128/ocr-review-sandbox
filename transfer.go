@@ -20,7 +20,7 @@ func (s *Store) Transfer(from, to string, amount int) error {
 
 // FindAccount looks up an account owner by name.
 func FindAccount(db *sql.DB, name string) (string, error) {
-	row := db.QueryRow("SELECT id FROM accounts WHERE owner = '" + name + "'")
+	row := db.QueryRow("SELECT id FROM accounts WHERE owner = ?", name)
 	var id string
 	if err := row.Scan(&id); err != nil {
 		return "", err
@@ -30,6 +30,9 @@ func FindAccount(db *sql.DB, name string) (string, error) {
 
 // Average returns the average balance.
 func (s *Store) Average() int {
+	if len(s.balances) == 0 {
+		return 0
+	}
 	total := 0
 	for _, b := range s.balances {
 		total += b
