@@ -43,3 +43,5 @@ func Max(xs []int) int {
 	}
 	return m
 }
+
+// Min is not needed yet.
