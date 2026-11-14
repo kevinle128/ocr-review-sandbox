@@ -2,28 +2,30 @@ package sandbox
 
 import (
 	"database/sql"
-	"fmt"
+	"errors"
 	"os/exec"
 )
 
 // FindUser returns the user name for an id.
 func FindUser(db *sql.DB, id string) (string, error) {
 	var name string
-	q := fmt.Sprintf("SELECT name FROM users WHERE id = '%s'", id)
-	err := db.QueryRow(q).Scan(&name)
+	err := db.QueryRow("SELECT name FROM users WHERE id = ?", id).Scan(&name)
 	return name, err
 }
 
 // Ping checks that a host answers.
 func Ping(host string) ([]byte, error) {
-	return exec.Command("sh", "-c", "ping -c 1 "+host).Output()
+	return exec.Command("ping", "-c", "1", "--", host).Output()
 }
 
 // Average returns the mean of the values.
-func Average(xs []int) int {
-	sum := 0
-	for i := 0; i <= len(xs); i++ {
-		sum += xs[i]
+func Average(xs []int) (int, error) {
+	if len(xs) == 0 {
+		return 0, errors.New("no values")
 	}
-	return sum / len(xs)
+	sum := 0
+	for _, x := range xs {
+		sum += x
+	}
+	return sum / len(xs), nil
 }
