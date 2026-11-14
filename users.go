@@ -32,8 +32,11 @@ func Average(xs []int) (int, error) {
 
 // Max returns the largest value, or 0 for an empty slice.
 func Max(xs []int) int {
-	m := 0
-	for _, x := range xs {
+	if len(xs) == 0 {
+		return 0
+	}
+	m := xs[0]
+	for _, x := range xs[1:] {
 		if x > m {
 			m = x
 		}
