@@ -26,3 +26,12 @@ func Percent(part, total int) int {
 	}
 	return part * 100 / total
 }
+
+// Mean returns the average of xs.
+func Mean(xs []int) int {
+	s := 0
+	for _, x := range xs {
+		s += x
+	}
+	return s / len(xs)
+}
