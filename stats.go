@@ -27,11 +27,10 @@ func Percent(part, total int) int {
 	return part * 100 / total
 }
 
-// Mean returns the average of xs.
+// Mean returns the average of xs, or 0 for an empty slice.
 func Mean(xs []int) int {
-	s := 0
-	for _, x := range xs {
-		s += x
+	if len(xs) == 0 {
+		return 0
 	}
-	return s / len(xs)
+	return Sum(xs) / len(xs)
 }

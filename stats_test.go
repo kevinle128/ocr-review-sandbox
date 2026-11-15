@@ -62,3 +62,24 @@ func TestPercent(t *testing.T) {
 		}
 	}
 }
+
+func TestMean(t *testing.T) {
+	tests := []struct {
+		name string
+		xs   []int
+		want int
+	}{
+		{"nil", nil, 0},
+		{"empty", []int{}, 0},
+		{"single", []int{7}, 7},
+		{"multi", []int{2, 4, 6}, 4},
+		{"truncates", []int{1, 2}, 1},
+		{"negative", []int{-3, -6}, -4},
+		{"mixed", []int{-2, 2, 6}, 2},
+	}
+	for _, tt := range tests {
+		if got := Mean(tt.xs); got != tt.want {
+			t.Errorf("%s: Mean(%v) = %d, want %d", tt.name, tt.xs, got, tt.want)
+		}
+	}
+}
